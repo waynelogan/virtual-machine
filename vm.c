@@ -29,15 +29,16 @@ typedef struct {
 #define DEF_INST_SUB() {.type = INST_SUB }
 #define DEF_INST_MUL() {.type = INST_MUL }
 #define DEF_INST_DIV() {.type = INST_DIV }
+#define DEF_INST_PRINT() {.type = INST_PRINT }
 
 // program
 Inst program[] = {
     DEF_INST_PUSH(5),
-    DEF_INST_PUSH(4),
-    DEF_INST_PUSH(3),
-    DEF_INST_PUSH(2),
-    // DEF_INST_ADD(),
-    {.type = INST_PRINT},
+    DEF_INST_PUSH(5),
+    DEF_INST_PUSH(10),
+    // DEF_INST_PRINT(),
+    DEF_INST_DIV(),
+    DEF_INST_PRINT(),
 };
 // macro, will expand to the value whenever used
 #define PROGRAM_SIZE (sizeof(program)/sizeof(program[0]))
@@ -70,9 +71,20 @@ void print_stack(){
     }
 }
 
+void write_program_to_file(char *file_path){
+    FILE *file = fopen(file_path, "wb");
+    if(file == NULL){
+        fprintf(stderr, "ERROR: Could not write to file %s\n", file_path);
+        exit(1);
+    }
+    fwrite(program, sizeof(program[0]), PROGRAM_SIZE, file);
+    fclose(file);
+}
+
+
 int main(){
     int a, b;
-
+    write_program_to_file("test.vm");
     for(size_t ip = 0; ip < PROGRAM_SIZE; ip++){
         switch (program[ip].type)
         {
