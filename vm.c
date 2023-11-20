@@ -22,12 +22,21 @@ typedef struct {
     int value;
 } Inst;
 
+// macros for instructions
+#define DEF_INST_PUSH(x) {.type = INST_PUSH, .value = x}
+#define DEF_INST_POP() {.type = INST_POP }
+#define DEF_INST_ADD() {.type = INST_ADD }
+#define DEF_INST_SUB() {.type = INST_SUB }
+#define DEF_INST_MUL() {.type = INST_MUL }
+#define DEF_INST_DIV() {.type = INST_DIV }
 
 // program
 Inst program[] = {
-    {.type = INST_PUSH, .value = 11 },
-    {.type = INST_PUSH, .value = 9 },
-    {.type = INST_SUB},
+    DEF_INST_PUSH(5),
+    DEF_INST_PUSH(4),
+    DEF_INST_PUSH(3),
+    DEF_INST_PUSH(2),
+    // DEF_INST_ADD(),
     {.type = INST_PRINT},
 };
 // macro, will expand to the value whenever used
@@ -55,6 +64,12 @@ int pop(){
     return stack[--stack_size];
 }
 
+void print_stack(){
+    for(int i = stack_size - 1; i >= 0; i--){
+        printf("%d\n", stack[i]);
+    }
+}
+
 int main(){
     int a, b;
 
@@ -75,7 +90,7 @@ int main(){
             case INST_SUB:
                 a = pop();
                 b = pop();
-                push(a - b);
+                push(b - a);
                 break;
             case INST_MUL:
                 a = pop();
@@ -95,6 +110,7 @@ int main(){
                 break;
         }
     }
+    print_stack();
 
     return 0;
 }
