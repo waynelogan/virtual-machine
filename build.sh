@@ -1,3 +1,3 @@
 set -xe
-gcc vm.c -o vm -Wall -Wextra
-./vm
+gcc ./src/vm.c -o ./build/vm -Wall -Wextra
+./build/vm

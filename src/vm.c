@@ -27,7 +27,7 @@ typedef struct {
 typedef struct{
     int stack[MAX_STACK_SIZE];
     int stack_size;
-    int program_size;
+    size_t program_size;
     Inst *instructions;
 } Machine;
 
@@ -120,7 +120,7 @@ int main(){
     loaded_machine->instructions = program;
     write_program_to_file(loaded_machine, "test.vm");
     loaded_machine = read_program_from_file(loaded_machine, "test.vm");
-    for(int ip = 0; ip < loaded_machine->program_size; ip++){
+    for(size_t ip = 0; ip < loaded_machine->program_size; ip++){
         switch (loaded_machine->instructions[ip].type)
         {
             case INST_PUSH:
